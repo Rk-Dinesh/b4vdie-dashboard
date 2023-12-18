@@ -40,7 +40,7 @@ const COLUMNS = [
   },
 ];
 
-const TripTable = () => {
+const TripTable = ({Current_user}) => {
 
     const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -182,6 +182,7 @@ const TripTable = () => {
                         <Icon icon="heroicons:eye" />
                       </Link>
                     </Tooltip>
+                    {Current_user === 'superadmin' && (
                     <Tooltip
                       content="Delete"
                       placement="top"
@@ -197,6 +198,7 @@ const TripTable = () => {
                         <Icon icon="heroicons:trash" />
                       </button>
                     </Tooltip>
+                    )}
                   </div>
                 </td>
               </tr>

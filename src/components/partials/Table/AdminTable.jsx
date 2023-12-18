@@ -11,6 +11,8 @@ import {
 import GlobalFilter from "./GlobalFilter";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../../host";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 
 const COLUMNS = [
@@ -40,9 +42,10 @@ const COLUMNS = [
   },
 ];
 
-const AdminTable = () => {
+const AdminTable = ({Current_user}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allData, setAllData] = useState([]);
   
 
   useEffect(() => {
@@ -60,6 +63,7 @@ const AdminTable = () => {
           rowIndex: index + 1,
         }));
         setData(usersWithRowIndex);
+        setAllData(usersWithRowIndex);
       }
       setLoading(false);
     } catch (error) {
@@ -113,6 +117,79 @@ const AdminTable = () => {
 
   const { globalFilter, pageIndex, pageSize } = state;
 
+  const exportData = async(format) => {
+    if (format === 'csv') {
+      // CSV Export
+      const exportedData = allData.map((row) => ({
+        'Row #': row.rowIndex,
+        'User ID' : row.userid,
+        'First Name': row.fname,
+        'Last Name': row.lname,
+        'Email': row.email,
+        'Phone': row.phone,
+        'Role' : row.role,
+      }));
+
+      const csvData = [
+        Object.keys(exportedData[0]).join(','),
+        ...exportedData.map((row) => Object.values(row).join(',')),
+      ].join('\n');
+
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      
+
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'Admin_data.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else if (format === 'pdf') {
+      try {
+        const rowsPerPage = 30; 
+        const totalPages = Math.ceil(allData.length / rowsPerPage);
+        
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        let yOffset = 10;
+        
+        for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
+          const startIndex = (currentPage - 1) * rowsPerPage;
+          const endIndex = Math.min(startIndex + rowsPerPage, allData.length);
+          const currentPageData = allData.slice(startIndex, endIndex);
+          
+          const tableData = currentPageData.map((row) => [
+            row.rowIndex,
+            row.userid,
+            `${row.fname} ${row.lname}`,
+            row.email,
+            row.phone,
+            row.role,
+          ]);
+    
+          pdf.text(`Page ${currentPage}`, 10, yOffset);
+          pdf.autoTable({
+            startY: yOffset + 10,
+            head: [['Row #','User ID', 'Name', 'Email', 'Phone','Role']],
+            body: tableData,
+            theme: 'grid',
+          });
+    
+          if (currentPage < totalPages) {
+            pdf.addPage();
+            yOffset = 10; // Set yOffset for the new page
+          } 
+        }
+    
+        pdf.save('Admin_data.pdf');
+      } catch (error) {
+        console.error('Error exporting data:', error);
+      }
+    }
+    
+  };
+
   return (
     <>
       <div className="md:flex justify-between items-center mb-6">
@@ -149,7 +226,9 @@ const AdminTable = () => {
             <th className=" table-th " >EMAIL</th>
             <th className=" table-th " >PHONE</th>
             <th className=" table-th " >ROLE</th>
+            {Current_user === 'superadmin' && (
             <th className=" table-th " >ACTION</th>
+            )}
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -164,6 +243,7 @@ const AdminTable = () => {
                 <td className="table-td">{row.original.email}</td>
                 <td className="table-td">{row.original.phone}</td>
                 <td className="table-td">{row.original.role}</td>
+                {Current_user === "superadmin" && (
                 <td className="table-td">
                   <div className="d-flex justify-around rtl-space-x-reverse">
                     <Tooltip content="Update" placement="top" arrow animation="shift-away">
@@ -188,13 +268,27 @@ const AdminTable = () => {
                     </Tooltip>
                   </div>
                 </td>
+                )}
               </tr>
             );
           })}
         </tbody>
       </table>
       <div className="md:flex md:space-y-0 space-y-5 justify-between mt-6 items-center">
-        <div className=" flex items-center space-x-3 rtl:space-x-reverse"></div>
+        <div className=" flex items-center space-x-3 rtl:space-x-reverse">
+        <button
+            onClick={() => exportData('pdf')}
+            className="bg-primary-600 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Export PDF
+          </button>
+          <button
+            onClick={() => exportData('csv')}
+            className="bg-primary-600 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Export CSV
+          </button>
+        </div>
         <ul className="flex items-center space-x-3 rtl:space-x-reverse">
           <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
             <button

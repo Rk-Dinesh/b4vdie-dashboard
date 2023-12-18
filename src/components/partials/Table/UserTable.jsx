@@ -40,7 +40,7 @@ const COLUMNS = [
   },
 ];
 
-const UserTable = () => {
+const UserTable = ({Current_user}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -179,6 +179,7 @@ const UserTable = () => {
                         <Icon icon="heroicons:eye" />
                       </Link>
                     </Tooltip>
+                    {Current_user === "superadmin" && (
                     <Tooltip
                       content="Delete"
                       placement="top"
@@ -194,7 +195,7 @@ const UserTable = () => {
                         <Icon icon="heroicons:trash" />
                       </button>
                     </Tooltip>
-                   
+                   )}
                   </div>
                 </td>
               </tr>

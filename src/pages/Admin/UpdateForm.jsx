@@ -19,7 +19,7 @@ const FormValidationSchema = yup.object({
 
 });
 
-const UpdateAdmin = () => {
+const UpdateAdmin = ({Current_user}) => {
   const {
     setValue,
     
@@ -46,7 +46,7 @@ const UpdateAdmin = () => {
        
         const response = await axios.get(`${API}/getadmin?userid=${userid}`);
         const responseData = response.data;
-        console.log(responseData)
+        //console.log(responseData)
 
         setFname(responseData.fname)
         setLname(responseData.lname)
@@ -155,18 +155,23 @@ const UpdateAdmin = () => {
                     />
                   </div>
 
-                  <div >
-                    <label htmlFor="role" className="capitalize form-label"><b>Role</b></label>
-                    <input
-                      type="text"
-                      name="role"
-                      className=" form-control py-2 "
-                      id="role"
-                      placeholder="Role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                    />
-                  </div>
+                    {Current_user === 'superadmin' && (
+                  <div>
+                        <label htmlFor="role" className="capitalize form-label">
+                          <b>Role</b>
+                        </label>
+                        <select
+                          name="role"
+                          className="form-control py-2"
+                          id="role"
+                          value={role}
+                          onChange={(e) => setRole(e.target.value)}
+                        >
+                          <option value="superadmin">Superadmin</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </div>
+                      )}
 
                   <div className="ltr:text-right rtl:text-left">
                     <button className="btn btn-dark text-center" type="submit">

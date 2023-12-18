@@ -1,10 +1,10 @@
 import React from "react";
 import AdminTable from "./AdminTable";
 
-const AdminDetails = () => {
+const AdminDetails = ({Current_user}) => {
   return (
     <div >
-      <AdminTable />
+      <AdminTable Current_user ={Current_user}/>
     </div>
   );
 };

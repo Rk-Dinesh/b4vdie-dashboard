@@ -1,10 +1,10 @@
 import React from "react";
 import UserTable from "./UserTable";
 
-const UserDetails = () => {
+const UserDetails = ({Current_user}) => {
   return (
     <div >
-      <UserTable />
+      <UserTable Current_user ={Current_user}/>
     </div>
   );
 };

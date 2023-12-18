@@ -65,7 +65,7 @@ const ProfileUser = () => {
                 <div className="flex-none">
                   <div className="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4 ring-slate-100 relative">
                     <img
-                      src={MobileLogo}
+                       src={`${API}/${user.userimage}`}
                       alt=""
                       className="w-full h-full object-cover rounded-full"
                     />

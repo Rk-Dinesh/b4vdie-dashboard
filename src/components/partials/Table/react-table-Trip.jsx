@@ -1,10 +1,10 @@
 import React from "react";
 import TripTable from "./TripTable";
 
-const TripDetails = () => {
+const TripDetails = ({Current_user}) => {
   return (
     <div >
-      <TripTable />
+      <TripTable Current_user ={Current_user}/>
     </div>
   );
 };

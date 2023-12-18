@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { API } from "../../../../host";
 
 
-const UserProfile = ({ token }) => {
+const UserProfile = ({ token , Current_user}) => {
   const navigate = useNavigate();
   const decodedToken = jwtDecode(token);
 
@@ -28,6 +28,7 @@ const UserProfile = ({ token }) => {
   const [userData, setUserData] = useState(initialUserData);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userid, setuserid] = useState("");
 
   useEffect(() => {
     const decodedEmail = decodedToken.email;
@@ -38,6 +39,10 @@ const UserProfile = ({ token }) => {
         );
         const responseData = response.data;
         setUserData(responseData);
+        if (responseData.userid) {
+          setuserid(responseData.userid);
+          console.log(userid) 
+        }
       } catch (error) {
         console.log(error);
       }
@@ -70,6 +75,10 @@ const UserProfile = ({ token }) => {
       toast.error("New & confirm password must match");
     }
   };
+
+  let handleupdate = () => {
+    navigate(`/updateform?userid=${userid}`)
+  }
 
   return (
     <div>
@@ -142,6 +151,12 @@ const UserProfile = ({ token }) => {
           </Card>
         </div>
       </div>
+      <br />
+      {Current_user === 'admin' && (
+      <div className="ltr:text-right rtl:text-left">
+        <button className="btn btn-dark text-center"  onClick={() => handleupdate()}>Update Info</button>
+      </div>
+      )}
     </div>
   );
 };
