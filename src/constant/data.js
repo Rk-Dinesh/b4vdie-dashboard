@@ -16,6 +16,12 @@ export const menuItems = [
     icon: "heroicons-outline:user",
     link: "user"
   },
+  {
+    title: "Club",
+    isHide: true,
+    icon: "heroicons-outline:user",
+    link: "club"
+  },
 
   {
     title: "Admin",

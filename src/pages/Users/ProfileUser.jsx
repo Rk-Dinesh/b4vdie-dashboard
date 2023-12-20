@@ -69,12 +69,12 @@ const ProfileUser = () => {
                       alt=""
                       className="w-full h-full object-cover rounded-full"
                     />
-                    <Link
+                    {/* <Link
                       to="#"
                       className="absolute right-2 h-8 w-8 bg-slate-50 text-slate-600 rounded-full shadow-sm flex flex-col items-center justify-center md:top-[140px] top-[100px]"
                     >
                       <Icon icon="heroicons:pencil-square" />
-                    </Link>
+                    </Link> */}
                     <br />
                     <div className="text-sm font-light text-slate-600 dark:text-slate-400">
                       {user?.userid || "N/A"}

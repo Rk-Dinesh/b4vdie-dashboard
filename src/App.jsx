@@ -24,6 +24,10 @@ import TransportDetails from "./pages/TripDetails/transport";
 import TravellerDetails from "./pages/TripDetails/traveller";
 import ProfileUser from "./pages/Users/ProfileUser";
 import FollowUser from "./pages/Users/followers";
+import Club from "./pages/Club";
+import ForgotPassword from "./pages/auth/forgotpassword"
+import OtpVerify from "./pages/auth/otpverification";
+import ResetPassword from "./pages/auth/changepassword"
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -59,11 +63,15 @@ function App() {
       <Routes>
         {/* <Route path="" element={<Login setToken={setToken} />} /> */}
         <Route path="" element={<SignInSide setToken={setToken} />} />
+        <Route path="/forgotpassword" element={<ForgotPassword/>} />
+        <Route path="/otpverify" element={<OtpVerify />} />
+        <Route path="/resetpassword" element={<ResetPassword/>} />
         <Route path="/*" element={token ? <Layout token={token}/> : <Navigate to='/' />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="user" element={<Users Current_user ={Current_user}/>} />
           <Route path="admin" element={<Admin Current_user ={Current_user}/>} />
           <Route path="trip" element={<Trip Current_user ={Current_user}/>} />
+          <Route path="club" element={<Club Current_user ={Current_user}/>} />
           <Route path="tripdetails" element={<TripDeatils />} />
           <Route path="alert" element={<AlertDetails />} />
           <Route path="pitstop" element={<PitstopDetails />} />
