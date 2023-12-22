@@ -19,7 +19,7 @@ export const menuItems = [
   {
     title: "Club",
     isHide: true,
-    icon: "heroicons-outline:user",
+    icon: "arcticons:hotels-com",
     link: "club"
   },
 

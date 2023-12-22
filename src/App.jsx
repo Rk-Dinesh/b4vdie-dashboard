@@ -27,7 +27,8 @@ import FollowUser from "./pages/Users/followers";
 import Club from "./pages/Club";
 import ForgotPassword from "./pages/auth/forgotpassword"
 import OtpVerify from "./pages/auth/otpverification";
-import ResetPassword from "./pages/auth/changepassword"
+import ResetPassword from "./pages/auth/changepassword";
+import Profileclub from "./pages/Club/profileclub";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -39,12 +40,13 @@ function App() {
   useEffect(() => {
    
     const decodedEmail = decodedToken.email;
+   // console.log(decodedEmail)
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${API}/getemail?email=${decodedEmail}`);
         const responseData = response.data;
-        setUserData(responseData);
-       // console.log(responseData.role)
+        setUserData(responseData.role);
+       //console.log("data",responseData.role)
       } catch (error) {
         console.log(error);
       }
@@ -54,8 +56,8 @@ function App() {
   }, [decodedToken.email]);
 
 
-  const Current_user = userData.role
- console.log(Current_user)
+  const Current_user = userData
+ console.log("user",Current_user)
 
   return (
     <div>
@@ -83,6 +85,7 @@ function App() {
           <Route path="updateform" element={<UpdateForm Current_user ={Current_user}/>} />
           <Route path="profile" element={<UserProfile token={token} Current_user ={Current_user}/>} />
           <Route path="userprofile" element={<ProfileUser/>} />
+          <Route path="clubprofile" element={<Profileclub/>} />
         </Route>
       </Routes>
     </div>

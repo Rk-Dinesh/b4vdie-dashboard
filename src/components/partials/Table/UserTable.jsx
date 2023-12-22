@@ -150,7 +150,7 @@ const UserTable = ({Current_user}) => {
             <th className=" table-th " >GENDER</th>
             <th className=" table-th " >EMAIL</th>
             <th className=" table-th " >PHONE</th>
-            <th className=" table-th " >STATE</th>
+            {/* <th className=" table-th " >STATE</th> */}
             <th className=" table-th " >ACTION</th>
           </tr>
         </thead>
@@ -161,12 +161,19 @@ const UserTable = ({Current_user}) => {
               <tr {...row.getRowProps()} key={row.original.userid}>
                 <td className="table-td">{row.original.rowIndex}</td>
                 <td className="table-td">{row.original.userid}</td>
-                <td className="table-td">{row.original.fname}</td>
+                <td className="table-td flex items-center space-x-3">
+                  <img
+                    src={`${API}/${row.original.userimage}`}
+                    alt="User"
+                    className="rounded-full h-10 w-10 object-cover"
+                  />
+                  <span>{row.original.fname}</span>
+                </td>
                 <td className="table-td">{row.original.dob}</td>
                 <td className="table-td">{row.original.gender}</td>
                 <td className="table-td">{row.original.email}</td>
                 <td className="table-td">{row.original.phone}</td>
-                <td className="table-td">{row.original.state}</td>
+                {/* <td className="table-td">{row.original.state}</td> */}
                 <td className="table-td">
                   <div className="d-flex justify-around rtl-space-x-reverse">
                     <Tooltip content="View User" placement="top" arrow animation="shift-away">
