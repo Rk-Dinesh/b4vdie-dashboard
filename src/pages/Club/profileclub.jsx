@@ -60,7 +60,7 @@ const ProfileClub = () => {
               className="absolute left-0 top-0 md:h-[300px] h-[300px] w-full z-[-1] rounded-t-lg"
               style={{
                 backgroundImage: `url(${API}/${user.clubcoverimage || ""})`,
-                backgroundSize: "cover",
+                backgroundSize: "contain",
                 backgroundPosition: "center",
               }}
             ></div>
