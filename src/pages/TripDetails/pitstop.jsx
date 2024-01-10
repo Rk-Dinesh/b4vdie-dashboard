@@ -13,6 +13,7 @@ const PitstopDetails = () => {
 
     const [pitstop, setPitstop] = useState([]);
 
+   
     useEffect(() => {
         fetchData();
     }, []);
