@@ -171,3 +171,5 @@ router.put('follow',(req,res) => {
   </Box>
 </Box>
 </Grid>
+
+@headlessui/react @hookform/resolvers @iconify/react @mui/icons-material @mui/material @reduxjs/toolkit @tippyjs/react axios bootstrap cleave.js framer-motion jspdf jspdf-autotable jwt-decode react-dropdown-select react-hook-form react-redux react-router-dom react-select react-table react-toastify sass simplebar-react yup
