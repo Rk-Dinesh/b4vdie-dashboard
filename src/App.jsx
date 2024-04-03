@@ -33,31 +33,36 @@ import Profileclub from "./pages/Club/profileclub";
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
 
-  const decodedToken = jwtDecode(token);
+  const decodedToken = token ? jwtDecode(token) : null;
   const initialUserData = {role: ""};
 
   const [userData, setUserData] = useState(initialUserData);
   useEffect(() => {
-   
+   if(decodedToken){
     const decodedEmail = decodedToken.email;
-   // console.log(decodedEmail)
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${API}/getemail?email=${decodedEmail}`);
         const responseData = response.data;
-        setUserData(responseData.role);
-       //console.log("data",responseData.role)
+        setUserData(responseData);
+       // console.log(responseData.role)
       } catch (error) {
         console.log(error);
       }
     };
-    
+
     fetchUserData();
-  }, [decodedToken.email]);
+  }
+  }, [decodedToken]);
 
 
-  const Current_user = userData
- console.log("user",Current_user)
+  const Current_user = userData.role
+  
+ 
+  if (!token) {
+    // Handle the case where token is null
+    return <SignInSide setToken={setToken} />;
+  }
 
   return (
     <div>
